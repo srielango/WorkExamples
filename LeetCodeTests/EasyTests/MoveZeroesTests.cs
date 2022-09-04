@@ -1,19 +1,13 @@
 ﻿using LeetCode;
 using FluentAssertions;
 
-namespace LeetCodeTests
+namespace LeetCodeTests.EasyTests
 {
     [TestClass]
-    public class MoveZeroesTests
+    public class MoveZeroesTests : BaseTests
     {
-        private readonly Easy _sut;
-        public MoveZeroesTests()
-        {
-            _sut = new Easy();
-        }
-
         [TestMethod]
-        [DataRow(new int[] {1,0,1,1}, new int[] { 1, 1, 1, 0 })]
+        [DataRow(new int[] { 1, 0, 1, 1 }, new int[] { 1, 1, 1, 0 })]
         [DataRow(new int[] { 1, 0, 1, 0, 1 }, new int[] { 1, 1, 1, 0, 0 })]
         [DataRow(new int[] { 0, 0, 1, 0, 1 }, new int[] { 1, 1, 0, 0, 0 })]
         [DataRow(new int[] { 0, 1 }, new int[] { 1, 0 })]

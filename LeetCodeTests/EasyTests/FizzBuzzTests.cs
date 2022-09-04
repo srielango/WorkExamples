@@ -1,19 +1,12 @@
-﻿using LeetCode;
-using FluentAssertions;
+﻿using FluentAssertions;
 
-namespace LeetCodeTests
+namespace LeetCodeTests.EasyTests
 {
     [TestClass]
-    public class FizzBuzzTests
+    public class FizzBuzzTests : BaseTests
     {
-        private readonly Easy _sut;
-        public FizzBuzzTests()
-        {
-            _sut = new Easy();
-        }
-
         [TestMethod]
-        [DataRow(3,"Fizz")]
+        [DataRow(3, "Fizz")]
         [DataRow(6, "Fizz")]
         [DataRow(9, "Fizz")]
         [DataRow(12, "Fizz")]

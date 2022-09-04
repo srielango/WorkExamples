@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Globalization;
 
 namespace LeetCode
 {
@@ -90,7 +87,7 @@ namespace LeetCode
             ////}
 
             var lastNonZeroIndex = 0;
-            for(var i=0;i < nums.Length;i++)
+            for (var i = 0; i < nums.Length; i++)
             {
                 if (nums[i] != 0)
                 {
@@ -98,11 +95,423 @@ namespace LeetCode
                 }
             }
 
-            for(var i=lastNonZeroIndex;i < nums.Length;i++)
+            for (var i = lastNonZeroIndex; i < nums.Length; i++)
             {
                 nums[i] = 0;
             }
             return nums;
         }
+
+        public bool IsAnagram(string s, string t)
+        {
+            return string.Concat(s.OrderBy(c => c)) == string.Concat(t.OrderBy(c => c));
+
+            //var sArray = s.ToCharArray();
+            //Array.Sort(sArray);
+            //var tArray = t.ToCharArray();
+            //Array.Sort(tArray);
+            //return string.Join("", sArray) == string.Join("", tArray);
+        }
+
+        public bool ContainsDuplicate(int[] nums)
+        {
+            return new HashSet<int>(nums).Count != nums.Length;
+            //var myHash = new HashSet<int>();
+            //foreach(var num in nums)
+            //{
+            //    if(!myHash.Add(num))
+            //    {
+            //        return true;
+            //    }
+            //}
+            //return false;
+        }
+
+        public int FirstUniqChar(string s)
+        {
+            var myDictionary = new Dictionary<char, int>();
+            foreach (var c in s)
+            {
+                if (!myDictionary.ContainsKey(c))
+                {
+                    myDictionary.Add(c, 1);
+                }
+                else
+                {
+                    myDictionary[c] = myDictionary[c] + 1;
+                }
+            }
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (myDictionary[s[i]] == 1)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public int MissingNumber(int[] nums)
+        {
+            return nums.Length * (nums.Length + 1) / 2 - nums.Sum();
+
+            //for(var i=0;i<nums.Length;i++)
+            //{
+            //    if(nums.Any(x => x == i))
+            //    {
+            //        continue;
+            //    }
+            //    return i;
+            //}
+            //return nums.Length;
+        }
+
+        public int[] IntersectionOfTwoArrays(int[] nums1, int[] nums2)
+        {
+            var result = new List<int>();
+            var num2List = nums2.ToList();
+            foreach (var num in nums1)
+            {
+                if (num2List.Contains(num))
+                {
+                    result.Add(num);
+                    num2List.Remove(num);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public int MaxProfit2(int[] prices)
+        {
+            //O(n^2).  Times out for huge collections
+            //for(int i = 0; i < prices.Length - 1; i++)
+            //{
+            //    for(int j = i + 1; j < prices.Length; j++)
+            //    {
+            //        if(maxProfit < prices[j] - prices[i])
+            //        {
+            //            maxProfit = prices[j] - prices[i];
+            //        }
+            //    }
+            //}
+
+
+            //var maxProfit = 0;
+
+            //var min = prices[0];
+            //var max = prices[0];
+
+            //for(var i = 1; i < prices.Length; i++)
+            //{
+            //    var profit = prices[i] - min;
+            //    if (profit > maxProfit)
+            //    {
+            //        maxProfit = profit;
+            //    }
+
+            //    if (min > prices[i])
+            //    {
+            //        min = prices[i];
+            //        max = prices[i];
+            //    }
+            //    else if(max < prices[i])
+            //    {
+            //        max = prices[i];
+            //    }
+            //}
+            //return maxProfit;
+
+            if (prices.Length == 0) return 0;
+
+            int min = int.MaxValue;
+            int max = int.MinValue;
+
+            for (int i = 0; i < prices.Length; i++)
+            {
+                min = Math.Min(min, prices[i]);
+                max = Math.Max(max, prices[i] - min);
+            }
+
+            return max;
+        }
+
+        ////public int CountSpecialNumbers(int n)
+        ////{
+        ////    var count = 0;
+        ////    for(int i=1;i <= n;i++)
+        ////    {
+        ////        var num = i;
+        ////        bool[] visited = new bool[10];
+        ////        while (num != 0)
+        ////        {
+        ////            if (visited[num % 10])
+        ////                break;
+
+        ////            visited[num % 10] = true;
+        ////            num = num / 10;
+        ////        }
+
+        ////        if(num == 0)
+        ////        {
+        ////            count++;
+        ////        }
+        ////        //var str = i.ToString();
+        ////        //var hashSet = new HashSet<char>();
+        ////        //var isSpecial = true;
+        ////        //foreach (var ch in str)
+        ////        //{
+        ////        //    if(hashSet.Contains(ch))
+        ////        //    {
+        ////        //        isSpecial = false;
+        ////        //        break;
+        ////        //    }
+        ////        //    hashSet.Add(ch);
+        ////        //}
+        ////        //if(isSpecial)
+        ////        //    count++;
+        ////    }
+
+        ////    return count;
+        ////}
+
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            if (l1 == null) return l2;
+            if (l2 == null) return l1;
+
+            var newHead = new ListNode(0);
+            var runnerHead = newHead;
+
+            while (l1 != null && l2 != null)
+            {
+                if (l1.val >= l2.val)
+                {
+                    runnerHead.next = l2;
+                    l2 = l2.next;
+                }
+                else
+                {
+                    runnerHead.next = l1;
+                    l1 = l1.next;
+                }
+
+                runnerHead = runnerHead.next;
+            }
+
+            if (l1 != null) runnerHead.next = l1;
+            if (l2 != null) runnerHead.next = l2;
+
+            return newHead.next;
+        }
+
+        public bool IsHappy(int n)
+        {
+            var num = n;
+            var sum = 0;
+
+            var myHash = new HashSet<int>();
+
+            while(!myHash.Contains(num))
+            {
+                myHash.Add(num);
+                while(num / 10 != 0)
+                {
+                    sum += (num % 10)* (num % 10);
+                    num /= 10;
+                }
+                sum += num * num;
+                if (sum == 1) return true;
+                num = sum;
+                sum = 0;
+            }
+
+            return false;
+        }
+
+        public IList<IList<int>> GeneratePascalTriangle(int numRows)
+        {
+            IList<IList<int>> list = new List<IList<int>>();
+
+            var count = 0;
+            if(numRows > 0)
+            {
+                list.Add(new List<int>() { 1 });
+                count++;
+            }
+
+            while(count < numRows)
+            {
+                var tempList = new List<int>();
+                var prevList = list[count-1];
+                if(prevList.Count == 1)
+                {
+                    tempList.Add(1);
+                    tempList.Add(1);
+                }
+                else
+                {
+                    tempList.Add(1);
+                    for (var i = 0; i < prevList.Count - 1; i++)
+                    {
+                        tempList.Add(prevList[i] + prevList[i+1]);
+                    }
+                    tempList.Add(1);
+                }
+                list.Add(tempList);
+                count++;
+            }
+            return list;
+        }
+
+        public int ClimbStairs(int n)
+        {
+            if(n == 0) return 0;
+            if(n == 1) return 1;
+
+            var firstNum = 0;
+            var secondNum = 1;
+            var fib = 0;
+
+            for(var i = 1; i <= n; i++)
+            {
+                fib = firstNum + secondNum;
+                firstNum = secondNum;
+                secondNum = fib;
+            }
+           
+            return fib;
+        }
+
+        public bool IsPowerOfThree(int n)
+        {
+            //Times out for large numbers. Ex: 1162261468
+            //if (n == 1) return true;
+            //var result = 0;
+            //var i = 1;
+            //while (result < n)
+            //{
+            //    result = (int)Math.Pow(3, i++);
+            //    if (result == n) return true;
+            //}
+
+            //Works well
+            //if (n == 1) return true;
+            //if (n == 0 || n % 3 > 0) return false;
+
+            //var x = n;
+            //while (x % 3 == 0)
+            //{
+            //    x /= 3;
+            //}
+
+            //return x == 1;
+
+            //One liner
+            return n > 0 && 1162261467 % n == 0;
+        }
+
+        public int HammingWeight(uint n)
+        {
+            //return Convert.ToString(n, 2).Replace("0", "").Length;
+            var count = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                if ((n >> i & 1) == 1)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int[] PlusOne(int[] digits)
+        {
+            //works for small numbers within the range of integer
+            ////var units = 10;
+            ////var num = digits[digits.Length - 1];
+            ////for(var i = digits.Length - 2; i >=0; i--)
+            ////{
+            ////    num += (digits[i] * units);
+            ////    units *= 10;
+            ////}
+            ////num += 1;
+            ////var result = new List<int>();
+            ////var temp = num;
+            ////while(temp > 0)
+            ////{
+            ////    result.Add(temp % 10);
+            ////    temp = Convert.ToInt16(Math.Floor(Convert.ToDouble(temp / 10)));
+            ////}
+
+            ////result.Reverse();
+            ////return result.ToArray();
+            ///
+
+            digits[digits.Length - 1] = digits[digits.Length - 1] + 1;
+            if (digits[digits.Length - 1] < 10)
+            {
+                return digits;
+            }
+            var result = new List<int>();
+            var carryForward = false;
+            for(var i=digits.Length - 1; i >= 0; i--)
+            {
+                if(carryForward)
+                {
+                    digits[i]++;
+                }
+
+                if (digits[i] == 10)
+                {
+                    result.Add(0);
+                    carryForward = true;
+                }
+                else
+                {
+                    result.Add(digits[i]);
+                    carryForward = false;
+                }
+            }
+
+            if(carryForward)
+            {
+                result.Add(1);
+            }
+            result.Reverse();
+            return result.ToArray();
+
+            //Interesting solution
+            ////int n = digits.length;
+            ////for (int i = n - 1; i >= 0; i--)
+            ////{
+            ////    if (digits[i] < 9)
+            ////    {
+            ////        digits[i]++;
+            ////        return digits;
+            ////    }
+
+            ////    digits[i] = 0;
+            ////}
+
+            ////int[] newNumber = new int[n + 1];
+            ////newNumber[0] = 1;
+
+            ////return newNumber;
+        }
     }
+
+    public class ListNode
+    {
+        public int val;
+        public ListNode next;
+        public ListNode(int val = 0, ListNode next = null)
+        {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
 }

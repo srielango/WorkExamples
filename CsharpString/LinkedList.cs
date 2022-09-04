@@ -16,13 +16,4 @@ namespace CsharpString
             this.next = next;
         }
     }
-
-    public class LinkedList
-    {
-
-        public ListNode ReverseList(ListNode head)
-        {
-            var myStack = new Stack();
-        }
-    }
 }

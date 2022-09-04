@@ -1,20 +1,15 @@
 ﻿using FluentAssertions;
 using LeetCode;
 
-namespace LeetCodeTests
+namespace LeetCodeTests.EasyTests
 {
     [TestClass]
-    public class SingleNumberTests
+    public class SingleNumberTests : BaseTests
     {
-        private readonly Easy _sut;
-        public SingleNumberTests()
-        {
-            _sut = new Easy();
-        }
 
         [TestMethod]
         [DataRow(new int[] { 1, 2, 1, 2, 3, 4, 5, 4, 5 }, 3)]
-        [DataRow(new int[] { 1, 1, 2, 2, 3}, 3)]
+        [DataRow(new int[] { 1, 1, 2, 2, 3 }, 3)]
         public void IntegerArrayWithExactlyOneSingleNumber_ReturnsSingleNumber(int[] nums, int expected)
         {
             var result = _sut.SingleNumber(nums);
