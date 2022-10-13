@@ -8,7 +8,7 @@ namespace LeetCodeTests.EasyTests
     {
 
         [TestMethod]
-        [DataRow(00000000000000000000000000001011, 3)]
+        [DataRow(00000000000000000000000000001011U, 8)]
         public void Integer_ReturnsHammingWeight(uint num, int expected)
         {
             var result = _sut.HammingWeight(num);

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace LeetCode
 {
@@ -415,16 +416,16 @@ namespace LeetCode
 
         public int HammingWeight(uint n)
         {
-            //return Convert.ToString(n, 2).Replace("0", "").Length;
-            var count = 0;
-            for (int i = 0; i < 32; i++)
-            {
-                if ((n >> i & 1) == 1)
-                {
-                    count++;
-                }
-            }
-            return count;
+            return Convert.ToString(n, 2).Replace("0", "").Length;
+            //var count = 0;
+            //for (int i = 0; i < 32; i++)
+            //{
+            //    if ((n >> i & 1) == 1)
+            //    {
+            //        count++;
+            //    }
+            //}
+            //return count;
         }
 
         public int[] PlusOne(int[] digits)
@@ -501,16 +502,242 @@ namespace LeetCode
 
             ////return newNumber;
         }
+
+        public int[] TwoSum(int[] nums, int target)
+        {
+            //Brute force approach
+            //for (int i = 0; i < nums.Length - 1; i++)
+            //{
+            //    for (int j = i + 1; j < nums.Length; j++)
+            //    {
+            //        if (nums[i] + nums[j] == target)
+            //        {
+            //            return new int[] { i, j };
+            //        }
+            //    }
+            //}
+            //return new int[0];
+
+            //O(n) using Hashtable
+            var hashMap = new Hashtable();
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var num = nums[i];
+                if (hashMap.Contains(target - num))
+                {
+                    return new int[] { Convert.ToInt16(hashMap[target - num]), i };
+                }
+                if (!hashMap.Contains(num))
+                {
+                    hashMap.Add(num, i);
+                }
+            }
+            return new int[0];
+
+            //Simple solution using Dictionary
+            var seen = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (seen.TryGetValue(target - nums[i], out var index))
+                {
+                    return new[] { index, i };
+                }
+
+                seen.TryAdd(nums[i], i);
+            }
+
+            return new int[0];
+        }
+        public int RemoveDuplicates(int[] nums)
+        {
+            //nums = nums.Distinct<int>().OrderBy(x => x).ToArray();
+
+            var i = 0;
+            var count = nums.Length;
+            while (i < count - 1)
+            {
+                if (nums[i] == nums[i + 1])
+                {
+                    for (var j = i; j < count - 1; j++)
+                    {
+                        nums[j] = nums[j + 1];
+                    }
+                    nums[nums.Length - 1] = 200;
+                    count--;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return count;
+
+            //O(N) solution
+            //var i = 0;
+            //foreach (int num in nums)
+            //    if (nums[i] != num)
+            //        nums[++i] = num;
+            //return nums.Length != 0 ? i + 1 : 0;
+        }
+
+        public bool IsValid(string s)
+        {
+            var stack = new Stack<char>();
+            foreach(var myChar in s)
+            {
+                switch(myChar)
+                {
+                    case '(':
+                    case '[':
+                    case '{':
+                        stack.Push(myChar);
+                        break;
+                    case ')':
+                        if(stack.Count == 0 || stack.Pop() != '(')
+                            return false;
+                        break;
+                    case ']':
+                        if (stack.Count == 0 || stack.Pop() != '[')
+                            return false;
+                        break;
+                    case '}':
+                        if (stack.Count == 0 || stack.Pop() != '{')
+                            return false;
+                        break;
+                }
+            }
+            if(stack.Count == 0) return true;
+            return false;
+        }
+
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null) return false;
+
+            var slow = head;
+            var fast = head.next;
+
+            while (slow != fast)
+            {
+                if (fast == null || fast.next == null)
+                {
+                    return false;
+                }
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            return true;
+
+            //HashSet<int> hashtable = new HashSet<int>();
+            //while(head.next != null)
+            //{
+            //    if(hashtable.Contains(head.val))
+            //    {
+            //        return true;
+            //    }
+            //    hashtable.Add(head.val);
+            //    head = head.next;
+            //}
+            //return false;
+        }
+
+        public bool IsPalindrome(ListNode head)
+        {
+            var myList = new List<int>();
+            while(head != null)
+            {
+                myList.Add(head.val);
+                head = head.next;
+            }
+
+            if (myList.Count == 1) return true;
+            if (myList.Count < 2) return false;
+
+            var fromPtr = 0;
+            var ToPtr = myList.Count - 1;
+            while(fromPtr < ToPtr)
+            {
+                if (myList[fromPtr] != myList[ToPtr])
+                    return false;
+                fromPtr++;
+                ToPtr--;
+            }
+            return true;
+        }
+
+        public int[] Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            int i = m - 1;
+            int j = n - 1;
+            int k = m + n - 1;
+
+            while (i >= 0 && j >= 0)
+            {
+                if (nums1[i] > nums2[j])
+                {
+                    nums1[k] = nums1[i];
+                    i--;
+                }
+                else
+                {
+                    nums1[k] = nums2[j];
+                    j--;
+                }
+                k--;
+            }
+
+            while (j >= 0)
+            {
+                nums1[k] = nums2[j];
+                k--;
+                j--;
+            }
+
+            //var i = 0;
+            //var j = 0;
+
+            //while(i < m)
+            //{
+            //    while(j < n)
+            //    {
+            //        if (nums1[i] < nums2[j])
+            //        {
+            //            i++;
+            //            if(i >= m)
+            //            {
+            //                var x = i + 1;
+            //                while(x < nums1.Length)
+            //                {
+            //                    nums1[x++] = nums2[j++];
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            for(var k=m; k > i; k--)
+            //            {
+            //                nums1[k] = nums1[k - 1];
+            //            }
+            //            nums1[i] = nums2[j];
+            //            j++;
+            //        }
+            //    }
+            //}
+
+            return nums1;
+        }
     }
 
     public class ListNode
     {
         public int val;
         public ListNode next;
-        public ListNode(int val = 0, ListNode next = null)
+        public ListNode(int val = 0)
         {
             this.val = val;
-            this.next = next;
+            this.next = null;
         }
     }
 

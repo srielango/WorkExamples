@@ -99,5 +99,61 @@
             }
             return prev1;
         }
+
+        public string CountAndSay(int n)
+        {
+            var result = "1";
+            for (var i = 1; i < n; i++)
+            {
+                var temp = result;
+                var count = 1;
+                if (temp.Length == 1)
+                {
+                    result = count.ToString() + temp.ToString();
+                }
+                else
+                {
+                    result = String.Empty;
+                    for (var j = 0; j < temp.Length - 1; j++)
+                    {
+                        if (temp[j] == temp[j + 1])
+                        {
+                            count++;
+                        }
+                        else
+                        {
+                            result = result + count.ToString() + temp[j].ToString();
+                            count = 1;
+                        }
+                    }
+                    result = result + count.ToString() + temp[temp.Length - 1].ToString();
+                }
+            }
+            return result;
+        }
+
+        public int TrailingZeroes(int n)
+        {
+            ////decimal factorial = 1;
+            ////var i = 1;
+            ////while (i <= n)
+            ////{
+            ////    factorial *= i;
+            ////    i++;
+            ////}
+            ////var count = 0;
+            ////var factorialString = factorial.ToString();
+            ////for(var j = factorialString.Length-1; j > 0; j--)
+            ////{
+            ////    if (factorialString[j] != '0')
+            ////    {
+            ////        return count;
+            ////    }
+            ////    count++;
+            ////}
+            ////return count;
+            
+            return n == 0 ? 0 : n / 5 + TrailingZeroes(n / 5);
+        }
     }
 }
