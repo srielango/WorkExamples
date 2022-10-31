@@ -806,28 +806,67 @@ namespace LeetCode
 
         private int SearchArray(int[] nums, int min, int max, int target)
         {
-            if (min > max)
-            {
-                return -1;
-            }
-            else if (nums[min] == target)
-            {
-                return min;
-            }
-            else if (nums[max] == target)
-            {
-                return max;
-            }
 
-            var middle = (max + min) / 2;
-            if (nums[middle] > target)
+            while(min <= max)
             {
-                return SearchArray(nums, min + 1, middle, target);
+                var middle = (min + max) / 2;
+                if(nums[middle] == target)
+                    return middle;
+                if (nums[middle] > target)
+                {
+                    max = middle - 1;
+                }
+                else
+                {
+                    min = middle + 1;
+                }
             }
-            else
-            {
-                return SearchArray(nums, middle, max - 1, target);
-            }
+            return -1;
+
+            //if (min > max)
+            //{
+            //    return -1;
+            //}
+
+            //var middle = (max + min) / 2;
+
+            //if (nums[middle] == target)
+            //{
+            //    return middle;
+            //}
+
+            //if (nums[middle] > target)
+            //{
+            //    return SearchArray(nums, min + 1, middle, target);
+            //}
+            //else
+            //{
+            //    return SearchArray(nums, middle + 1, max, target);
+            //}
+
+
+            //if (min > max)
+            //{
+            //    return -1;
+            //}
+            //else if (nums[min] == target)
+            //{
+            //    return min;
+            //}
+            //else if (nums[max] == target)
+            //{
+            //    return max;
+            //}
+
+            //var middle = (max + min) / 2;
+            //if (nums[middle] > target)
+            //{
+            //    return SearchArray(nums, min + 1, middle, target);
+            //}
+            //else
+            //{
+            //    return SearchArray(nums, middle, max - 1, target);
+            //}
         }
     }
 
