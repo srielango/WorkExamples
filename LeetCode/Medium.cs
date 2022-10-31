@@ -1,4 +1,7 @@
-﻿namespace LeetCode
+﻿using System.Diagnostics.SymbolStore;
+using System.Text;
+
+namespace LeetCode
 {
     public class Medium
     {
@@ -152,8 +155,146 @@
             ////    count++;
             ////}
             ////return count;
-            
+
             return n == 0 ? 0 : n / 5 + TrailingZeroes(n / 5);
+        }
+
+        public int StrStr(string haystack, string needle)
+        {
+            for (var i = 0; i <= haystack.Length - needle.Length; i++)
+            {
+                int j = 0;
+                for (j = 0; j < needle.Length; j++)
+                {
+                    if (haystack[i + j] == needle[j]) continue;
+                    break;
+                }
+                if (j == needle.Length) return i;
+            }
+
+            return -1;
+
+            //if (haystack == needle) return 0;
+
+            //var j = 0;
+            //var index = -1;
+
+            //while (j <= (haystack.Length - needle.Length))
+            //{
+            //    var i = 0;
+            //    var k = j;
+            //    while (i < needle.Length)
+            //    {
+            //        if (haystack[k] == needle[i])
+            //        {
+            //            if(index == -1) index = k;
+            //            i++;
+            //            k++;
+            //        }
+            //        else
+            //        {
+            //            index = -1;
+            //            break;
+            //        }
+            //    }
+            //    if (index > -1)
+            //    {
+            //        return index;
+            //    }
+            //    j++;
+            //}
+            //return -1;
+
+            //return haystack.IndexOf(needle, StringComparison.Ordinal);
+        }
+
+        public void Rotate(int[] nums, int k)
+        {
+            for (var steps = 0; steps < k; steps++)
+            {
+                var x = nums[nums.Length - 1];
+                for (var i = nums.Length - 1; i > 0; i--)
+                {
+                    nums[i] = nums[i - 1];
+                }
+                nums[0] = x;
+            }
+        }
+
+        public int CountPrimes(int n)
+        {
+            if (n <= 2)
+            {
+                return 0;
+            }
+
+            var nonPrimes = new bool[n];
+
+            int count = 0;
+            nonPrimes[2] = false;
+
+            for (int number = 2; number < n; number++)
+            {
+                if (!nonPrimes[number])
+                {
+                    //for (int i = 1; i * number < n; i++)
+                    for (int i = 2; i * number < n; i++)  // keep the prime number unchanged please! June 7, 2022
+                    {
+                        nonPrimes[i * number] = true;
+                    }
+
+                    count++;
+                }
+            }
+
+            return count;
+
+            //if (n < 3)
+            //    return 0;
+
+            //var count = 1;
+
+            //for(var i=3;i<n;i+=2)
+            //{
+            //    if (i > 5 && i % 5 == 0)
+            //        continue;
+
+            //    if (IsPrime(i))
+            //    {
+            //        count++;
+            //    }
+            //}
+            //return count;
+        }
+
+        private bool IsPrime(int n)
+        {
+            
+            for(var i=2;i*i <= n;i++)
+            {
+                if (n % i == 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public int Reverse(int x)
+        {
+            var isNegative = x < 0;
+            var str = Math.Abs(x).ToString();
+            var res = new StringBuilder();
+            for(var i=str.Length - 1;i >=0; i--)
+            {
+                res.Append(str[i]);
+            }
+            var strRes = res.ToString();
+            var result = Convert.ToInt64(strRes);
+            if(result > int.MaxValue)
+            {
+                return 0;
+            }
+            if(isNegative) result *= -1;
+            return (int)result;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
 namespace LeetCode
 {
@@ -315,12 +316,12 @@ namespace LeetCode
 
             var myHash = new HashSet<int>();
 
-            while(!myHash.Contains(num))
+            while (!myHash.Contains(num))
             {
                 myHash.Add(num);
-                while(num / 10 != 0)
+                while (num / 10 != 0)
                 {
-                    sum += (num % 10)* (num % 10);
+                    sum += (num % 10) * (num % 10);
                     num /= 10;
                 }
                 sum += num * num;
@@ -337,17 +338,17 @@ namespace LeetCode
             IList<IList<int>> list = new List<IList<int>>();
 
             var count = 0;
-            if(numRows > 0)
+            if (numRows > 0)
             {
                 list.Add(new List<int>() { 1 });
                 count++;
             }
 
-            while(count < numRows)
+            while (count < numRows)
             {
                 var tempList = new List<int>();
-                var prevList = list[count-1];
-                if(prevList.Count == 1)
+                var prevList = list[count - 1];
+                if (prevList.Count == 1)
                 {
                     tempList.Add(1);
                     tempList.Add(1);
@@ -357,7 +358,7 @@ namespace LeetCode
                     tempList.Add(1);
                     for (var i = 0; i < prevList.Count - 1; i++)
                     {
-                        tempList.Add(prevList[i] + prevList[i+1]);
+                        tempList.Add(prevList[i] + prevList[i + 1]);
                     }
                     tempList.Add(1);
                 }
@@ -369,20 +370,20 @@ namespace LeetCode
 
         public int ClimbStairs(int n)
         {
-            if(n == 0) return 0;
-            if(n == 1) return 1;
+            if (n == 0) return 0;
+            if (n == 1) return 1;
 
             var firstNum = 0;
             var secondNum = 1;
             var fib = 0;
 
-            for(var i = 1; i <= n; i++)
+            for (var i = 1; i <= n; i++)
             {
                 fib = firstNum + secondNum;
                 firstNum = secondNum;
                 secondNum = fib;
             }
-           
+
             return fib;
         }
 
@@ -458,9 +459,9 @@ namespace LeetCode
             }
             var result = new List<int>();
             var carryForward = false;
-            for(var i=digits.Length - 1; i >= 0; i--)
+            for (var i = digits.Length - 1; i >= 0; i--)
             {
-                if(carryForward)
+                if (carryForward)
                 {
                     digits[i]++;
                 }
@@ -477,7 +478,7 @@ namespace LeetCode
                 }
             }
 
-            if(carryForward)
+            if (carryForward)
             {
                 result.Add(1);
             }
@@ -584,9 +585,9 @@ namespace LeetCode
         public bool IsValid(string s)
         {
             var stack = new Stack<char>();
-            foreach(var myChar in s)
+            foreach (var myChar in s)
             {
-                switch(myChar)
+                switch (myChar)
                 {
                     case '(':
                     case '[':
@@ -594,7 +595,7 @@ namespace LeetCode
                         stack.Push(myChar);
                         break;
                     case ')':
-                        if(stack.Count == 0 || stack.Pop() != '(')
+                        if (stack.Count == 0 || stack.Pop() != '(')
                             return false;
                         break;
                     case ']':
@@ -607,7 +608,7 @@ namespace LeetCode
                         break;
                 }
             }
-            if(stack.Count == 0) return true;
+            if (stack.Count == 0) return true;
             return false;
         }
 
@@ -646,7 +647,7 @@ namespace LeetCode
         public bool IsPalindrome(ListNode head)
         {
             var myList = new List<int>();
-            while(head != null)
+            while (head != null)
             {
                 myList.Add(head.val);
                 head = head.next;
@@ -657,7 +658,7 @@ namespace LeetCode
 
             var fromPtr = 0;
             var ToPtr = myList.Count - 1;
-            while(fromPtr < ToPtr)
+            while (fromPtr < ToPtr)
             {
                 if (myList[fromPtr] != myList[ToPtr])
                     return false;
@@ -727,6 +728,106 @@ namespace LeetCode
             //}
 
             return nums1;
+        }
+
+        public string LongestCommonPrefix(string[] strs)
+        {
+            var index = 0;
+            var len = strs[0].Length;
+            StringBuilder sb = new StringBuilder();
+            while (index < len)
+            {
+                var ch = strs[0][index];
+                var isSame = true;
+                for(var i = 1; i < strs.Length; i++)
+                {
+                    if (strs[i].Length <= index)
+                    {
+                        isSame = false;
+                        break;
+                    }
+                    if (strs[i][index] != ch)
+                    {
+                        isSame = false;
+                        break;
+                    }
+                }
+                if (isSame)
+                {
+                    sb.Append(ch);
+                }
+                else
+                {
+                    break;
+                }
+                index++;
+            }
+            return sb.ToString();
+        }
+
+        public bool IsPalindrome(string s)
+        {
+            var sb = new StringBuilder();
+            foreach(var ch in s.ToLower())
+            {
+                var x = (int)ch;
+                if(x >=48 && x <= 57 || x >= 97 && x <= 122)
+                {
+                    sb.Append(ch);
+                }
+            }
+
+            var str = sb.ToString().ToLower();
+            for(int i = 0; i < str.Length / 2;i++)
+            {
+                if (str[i] != str[str.Length - 1 - i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public int Search(int[] nums, int target)
+        {
+
+            return SearchArray(nums, 0, nums.Length - 1, target);
+            //Linear search - O(N)
+            //for(var i=0;i<nums.Length;i++)
+            //{
+            //    if (nums[i] == target)
+            //    {
+            //        return i;
+            //    }
+            //}
+            //return -1;
+        }
+
+        private int SearchArray(int[] nums, int min, int max, int target)
+        {
+            if (min > max)
+            {
+                return -1;
+            }
+            else if (nums[min] == target)
+            {
+                return min;
+            }
+            else if (nums[max] == target)
+            {
+                return max;
+            }
+
+            var middle = (max + min) / 2;
+            if (nums[middle] > target)
+            {
+                return SearchArray(nums, min + 1, middle, target);
+            }
+            else
+            {
+                return SearchArray(nums, middle, max - 1, target);
+            }
         }
     }
 
