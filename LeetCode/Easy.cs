@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -804,6 +805,140 @@ namespace LeetCode
             //return -1;
         }
 
+        public int SmallestPositiveInt(int[] A)
+        {
+            // write your code in C# 6.0 with .NET 4.7 (Mono 6.12)
+            var x = A.ToList();
+            var smallestInt = 1;
+
+            x.Sort();
+            if (x[0] > 1)
+                return 1;
+
+            //Works.  But performance is not great
+            //for(var i=1;i<100000;i++)
+            //{
+            //    if(x.Contains(i))
+            //    {
+            //        continue;
+            //    }
+            //    else
+            //    {
+            //        return i;
+            //    }
+            //}
+
+            for (var i = 0; i < x.Count; i++)
+            {
+                if (x[i] < smallestInt)
+                {
+                    continue;
+                }
+
+                if (x[i] == smallestInt)
+                {
+                    smallestInt++;
+                    continue;
+                }
+
+                else if (x[i] > smallestInt)
+                {
+                    return smallestInt;
+                }
+            }
+
+            if (x.Max() <= 0)
+                return 1;
+
+            return x.Max() + 1;
+        }
+
+        public bool solution(string[] B)
+        {
+            var assasignRow = 0;
+            var assasignCol = 0;
+
+            // write your code in C# 6.0 with .NET 4.7 (Mono 6.12)
+            var x = new int[B.Length, B[0].Length];
+            for(var i = 0; i < B.Length; i++)
+            {
+                for (var j = 0; j < B[0].Length; j++)
+                {
+                    switch (B[i][j])
+                    {
+                        case '>':
+                            for(int k = j; k < B.Length; k++)
+                            {
+                                if (B[i][k] != '.')
+                                {
+                                    x[i, k] = 1;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case '<':
+                            for (int k = j; k >= 0; k--)
+                            {
+                                if (B[i][k] != '.')
+                                {
+                                    x[i, k] = 1;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        case '^':
+                            for(int k = i; k >= 0; k--)
+                            {
+                                if(B[k][j] != '.')
+                                {
+                                    x[k, j] = 1;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        case 'v':
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (B[k][j] != '.')
+                                {
+                                    x[k,j] = 1;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        case 'X':
+                            x[i, j] = 1;
+                            break;
+                        case 'A':
+                            assasignRow = i;
+                            assasignCol = j;
+                            break;
+                    }
+                    
+                    if (B[i][j] == '.' && x[i, j] != 0)
+                    {
+                        x[i, j] = 2;
+                    }
+                }
+            }
+
+
+            return false;
+        }
+
         private int SearchArray(int[] nums, int min, int max, int target)
         {
 
@@ -878,7 +1013,7 @@ namespace LeetCode
         {
             this.val = val;
             this.next = null;
-        }
+        }2
     }
 
 }
