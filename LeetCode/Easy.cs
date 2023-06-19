@@ -1013,7 +1013,7 @@ namespace LeetCode
         {
             this.val = val;
             this.next = null;
-        }2
+        }
     }
 
 }
