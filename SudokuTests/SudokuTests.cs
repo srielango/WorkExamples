@@ -48,7 +48,7 @@ namespace SudokuTests
         {
             LoadTestData4();
             _sut.Solve();
-            var result = _sut.GetValues();
+            var result = _sut.GetCells();
             for(var i=0;i<9;i++)
             {
                 Console.WriteLine();

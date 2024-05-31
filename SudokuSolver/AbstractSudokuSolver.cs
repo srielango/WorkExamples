@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SudokuSolver
+﻿namespace SudokuSolver
 {
     public abstract class AbstractSudokuSolver
     {
@@ -111,11 +107,20 @@ namespace SudokuSolver
             }
         }
 
-        public Cell[,] GetValues()
+        public Cell[,] GetCells()
         {
             return sudokuGrid;
         }
 
+        public int[,] GetValues()
+        {
+            int[,] result = new int[9, 9];
+            foreach(var  cell in sudokuGrid)
+            {
+                result[cell.Row, cell.Column] = cell.Number;
+            }
+            return result;
+        }
         public bool IsUniqueInCell(int row, int col, int number)
         {
             return IsUniqueInSquare(row, col, number) || IsUniqueInRow(row, number, col) || IsUniqueInCol(col, number, row);
