@@ -31,13 +31,22 @@ jobs:
     - name: Run tests with coverage
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=./TestResults/ /p:CoverletOutputFormat=cobertura /p:CoverletOutputFormat=opencover /logger:"trx;LogFileName=TestResults.trx"
 
-    - name: Publish Test Results
-      uses: dorny/test-reporter@v1
-      if: always()
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
       with:
-        name: .NET Tests
-        path: ./TestResults/*.trx
-        reporter: dotnet-trx
+        files: ./TestResults/coverage.cobertura.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+
+    # - name: Publish Test Results
+    #   uses: dorny/test-reporter@v1
+    #   if: always()
+    #   with:
+    #     name: .NET Tests
+    #     path: ./TestResults/*.trx
+    #     reporter: dotnet-trx
 
     # - name: Upload coverage report
     #   uses: actions/upload-artifact@v2
