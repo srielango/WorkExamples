@@ -1,4 +1,4 @@
-name: .NET Core MSTest with Coverlet
+name: .NET Core MSTest with Coverlet and Annotations
 
 on:
   push:
@@ -29,15 +29,23 @@ jobs:
       run: dotnet build --no-restore
 
     - name: Run tests with coverage
-      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=./TestResults/ /p:CoverletOutputFormat=cobertura
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=./TestResults/ /p:CoverletOutputFormat=cobertura /p:CoverletOutputFormat=opencover /logger:"trx;LogFileName=TestResults.trx"
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v2
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: always()
       with:
-        name: coverage-report
-        path: ./TestResults/
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        files: ./TestResults/coverage.cobertura.xml
-        token: ${{ secrets.CODECOV_TOKEN }}
+        name: .NET Tests
+        path: ./TestResults/*.trx
+        reporter: dotnet-trx
+
+    # - name: Upload coverage report
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: coverage-report
+    #     path: ./TestResults/
+    # - name: Upload coverage to Codecov
+    #   uses: codecov/codecov-action@v2
+    #   with:
+    #     files: ./TestResults/coverage.cobertura.xml
+    #     token: ${{ secrets.CODECOV_TOKEN }}

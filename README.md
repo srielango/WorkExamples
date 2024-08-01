@@ -1,1 +1,1 @@
-[![codecov](https://codecov.io/gh/USERNAME/REPOSITORY/branch/master/graph/badge.svg?token=secrets.CODECOV_TOKEN)](https://codecov.io/gh/USERNAME/REPOSITORY)
+[![codecov](https://codecov.io/github/srielango/WorkExamples/graph/badge.svg?token=CLQ7XZ7SVF)](https://codecov.io/github/srielango/WorkExamples)
