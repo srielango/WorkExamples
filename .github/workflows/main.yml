@@ -40,13 +40,13 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: true
 
-    # - name: Publish Test Results
-    #   uses: dorny/test-reporter@v1
-    #   if: always()
-    #   with:
-    #     name: .NET Tests
-    #     path: ./TestResults/*.trx
-    #     reporter: dotnet-trx
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: .NET Tests
+        path: ./TestResults/*.trx
+        reporter: dotnet-trx
 
     # - name: Upload coverage report
     #   uses: actions/upload-artifact@v2
