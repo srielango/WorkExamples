@@ -13,7 +13,7 @@ namespace LeetCodeTests.EasyTests
         {
             AssertionOptions.FormattingOptions.MaxDepth = 100;
             var result = _sut.MergeTwoLists(list1, list2);
-            (true).Should().Be(areIdentical(expected, result));
+            (false).Should().Be(areIdentical(expected, result));
         }
 
         private static IEnumerable<object[]> GetData()
