@@ -11,17 +11,17 @@ namespace CodingPatterns
             return GetLevelOrderByQueue();
         }
 
-        private List<int> GetLevelOrderRecursive()
-        {
-            var levelData = new List<int>();
-            int h = height(root);
-            int i;
-            for (i = 1; i <= h; i++)
-            {
-                levelData.AddRange(getCurrentLevel(root, i));
-            }
-            return levelData;
-        }
+        //private List<int> GetLevelOrderRecursive()
+        //{
+        //    var levelData = new List<int>();
+        //    int h = height(root);
+        //    int i;
+        //    for (i = 1; i <= h; i++)
+        //    {
+        //        levelData.AddRange(getCurrentLevel(root, i));
+        //    }
+        //    return levelData;
+        //}
 
         private int height(BinaryTreeNode root)
         {

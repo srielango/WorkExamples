@@ -23,7 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingPatterns", "CodingPat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingPatternsTests", "CodingPatternsTests\CodingPatternsTests.csproj", "{85D87AF8-589E-43FA-B3B6-0DFD04F82E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuUI", "SudokuUI\SudokuUI.csproj", "{94950CE1-FF4D-49F6-B452-E37849DA5864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SudokuUI", "SudokuUI\SudokuUI.csproj", "{94950CE1-FF4D-49F6-B452-E37849DA5864}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sln", "sln", "{7B98CF19-AB63-4AB9-8A08-AF55A2A83C3D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
