@@ -1,1 +1,0 @@
-[![codecov](https://codecov.io/github/srielango/WorkExamples/graph/badge.svg?token=CLQ7XZ7SVF)](https://codecov.io/github/srielango/WorkExamples)
