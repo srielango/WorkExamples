@@ -10,7 +10,8 @@ namespace CodingPatternsTests
 
         public MergeIntervalTests()
         {
-            _sut = new MergeIntervals(new SimpleStrategy());
+            //_sut = new MergeIntervals(new SimpleStrategy());
+            _sut = new MergeIntervals(new ExpectedStrategy());
         }
 
         [TestMethod]
@@ -23,10 +24,13 @@ namespace CodingPatternsTests
                 new int[] { 6, 8 },
                 new int[] { 9, 10 }
             };
-            var expected = new List<int[]>();
-            expected.Add(new int[] { 1, 4 } );
-            expected.Add(new int[] { 6, 8 });
-            expected.Add(new int[] { 9, 10 });
+
+            int[][] expected = new int[][] 
+            {
+                new int[] { 1, 4 },
+                new int[] { 6, 8 },
+                new int[] { 9, 10 }
+            };
 
             var result = _sut.MergeOverlap(input);
 

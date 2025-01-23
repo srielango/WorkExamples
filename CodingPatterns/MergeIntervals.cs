@@ -14,7 +14,7 @@
             _mergeStrategy = mergeStrategy;
         }
 
-        public List<int[]> MergeOverlap(int[][] intervals)
+        public int[][] MergeOverlap(int[][] intervals)
         {
             return _mergeStrategy.Merge(intervals);
         }
@@ -22,12 +22,12 @@
 
     public interface IMergeStrategy
     {
-        List<int[]> Merge(int[][] intervals);
+        int[][] Merge(int[][] intervals);
     }
 
     public class SimpleStrategy : IMergeStrategy
     {
-        public List<int[]> Merge(int[][] intervals)
+        public int[][] Merge(int[][] intervals)
         {
             var result = new List<int[]>();
 
@@ -45,10 +45,6 @@
 
                 for(int j = i + 1; j < intervals.Length; j++)
                 {
-                    //if (intervals[j][0] <= end)
-                    //{
-                    //    end = Math.Max(end, intervals[j][1]);
-                    //}
                     if (end > intervals[j][0])
                     {
                         end = Math.Max(end, intervals[j][1]);
@@ -58,7 +54,33 @@
                 result.Add(new int[] {start, end});
             }
 
-            return result;
+            return result.ToArray();
+        }
+    }
+
+    public class ExpectedStrategy : IMergeStrategy
+    {
+        public int[][] Merge(int[][] intervals)
+        {
+            var result = new List<int[]>();
+            Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+
+            result.Add(new int[] { intervals[0][0], intervals[0][1] });
+            for (int i = 1; i < intervals.Length; i++) 
+            {
+                var last = result[result.Count - 1];
+                var curr = intervals[i];
+                if (curr[0] <= last[1])
+                {
+                    last[1] = Math.Max(curr[1], last[1]);
+                }
+                else
+                {
+                    result.Add(new int[] { curr[0], curr[1] });
+                }
+            }
+
+            return result.ToArray();
         }
     }
 }
