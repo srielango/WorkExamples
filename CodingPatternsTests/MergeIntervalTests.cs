@@ -6,7 +6,7 @@ namespace CodingPatternsTests
     [TestClass]
     public class MergeIntervalTests
     {
-        public readonly MergeIntervals _sut;
+        private readonly MergeIntervals _sut;
 
         public MergeIntervalTests()
         {
