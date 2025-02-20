@@ -9,7 +9,8 @@ namespace CodingPatternsTests
         public readonly TopKElements _sut;
         public TopKElementsTests()
         {
-            _sut = new TopKElements(new HashMapTopKElementsStrategy());
+            //_sut = new TopKElements(new HashMapTopKElementsStrategy());
+            _sut = new TopKElements(new MinHeapTopKElementsStrategy());
         }
 
         [TestMethod]
