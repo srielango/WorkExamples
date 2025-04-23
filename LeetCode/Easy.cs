@@ -792,17 +792,7 @@ namespace LeetCode
 
         public int Search(int[] nums, int target)
         {
-
             return SearchArray(nums, 0, nums.Length - 1, target);
-            //Linear search - O(N)
-            //for(var i=0;i<nums.Length;i++)
-            //{
-            //    if (nums[i] == target)
-            //    {
-            //        return i;
-            //    }
-            //}
-            //return -1;
         }
 
         public int SmallestPositiveInt(int[] A)
@@ -957,51 +947,28 @@ namespace LeetCode
                 }
             }
             return -1;
+        }
 
-            //if (min > max)
-            //{
-            //    return -1;
-            //}
-
-            //var middle = (max + min) / 2;
-
-            //if (nums[middle] == target)
-            //{
-            //    return middle;
-            //}
-
-            //if (nums[middle] > target)
-            //{
-            //    return SearchArray(nums, min + 1, middle, target);
-            //}
-            //else
-            //{
-            //    return SearchArray(nums, middle + 1, max, target);
-            //}
-
-
-            //if (min > max)
-            //{
-            //    return -1;
-            //}
-            //else if (nums[min] == target)
-            //{
-            //    return min;
-            //}
-            //else if (nums[max] == target)
-            //{
-            //    return max;
-            //}
-
-            //var middle = (max + min) / 2;
-            //if (nums[middle] > target)
-            //{
-            //    return SearchArray(nums, min + 1, middle, target);
-            //}
-            //else
-            //{
-            //    return SearchArray(nums, middle, max - 1, target);
-            //}
+        public IList<IList<int>> GeneratePascalsTriangle(int numRows)
+        {
+            IList<IList<int>> PascalsTriangle = new List<IList<int>>();
+            for (int i = 0; i < numRows; i++)
+            {
+                List<int> row = new List<int>();
+                for(int j = 0; j <= i; j++)
+                {
+                    if(j == 0 || j == i)
+                    {
+                        row.Add(1);
+                    }
+                    else
+                    {
+                        row.Add(PascalsTriangle[i - 1][j - 1] + PascalsTriangle[i - 1][j]);
+                    }
+                }
+                PascalsTriangle.Add(row);
+            }
+            return PascalsTriangle;
         }
     }
 
