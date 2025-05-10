@@ -1,4 +1,8 @@
-﻿namespace LeetCode
+﻿using System.Text.RegularExpressions;
+using System;
+using System.Text;
+
+namespace LeetCode
 {
     public class Hard
     {
@@ -95,6 +99,49 @@
             if(string.Compare(first[1], second[1]) > 0)
                 return second;
             return first;
+        }
+
+        //Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+        //'?' Matches any single character.
+        //'*' Matches any sequence of characters (including the empty sequence).
+        //The matching should cover the entire input string (not partial).
+        public bool WildCardMatch(string s, string p)
+        {
+            int stringIndex = 0;
+            int patternIndex = 0;
+            int starIndex = -1;
+            int sMatchIndex = 0;
+
+            while(stringIndex < s.Length)
+            {
+                if (patternIndex < p.Length && (p[patternIndex] == '?' || p[patternIndex] == s[stringIndex]))
+                {
+                    stringIndex++;
+                    patternIndex++;
+                    continue;
+                }
+                if(patternIndex < p.Length && p[patternIndex] == '*')
+                {
+                    starIndex = patternIndex;
+                    sMatchIndex = stringIndex;
+                    patternIndex++;
+                    continue;
+                }
+                if(starIndex == -1)
+                {
+                    return false;
+                }
+                stringIndex = sMatchIndex + 1;
+                sMatchIndex++;
+                patternIndex = starIndex + 1;
+            }
+
+            while (patternIndex < p.Length && p[patternIndex] == '*')
+            {
+                patternIndex++;
+            }
+
+            return patternIndex == p.Length;
         }
     }
 }
